@@ -93,14 +93,25 @@ The package contains no runtime dependencies; it uses Node.js built-ins and `fet
 
 ## Publish
 
-After logging in to npm, publish a new version:
+Publishing is automated after changes are merged into `main`. The workflow runs the tests, bumps the patch version when the current version already exists on npm, commits that version, and publishes the package.
+
+To enable automated publishing, create an npm granular access token with package write permission and 2FA bypass enabled. Add it to the GitHub repository at **Settings -> Secrets and variables -> Actions** with the name `NPM_TOKEN`.
+
+After that, merge a pull request into `main`; no local npm login or publish command is needed.
+
+For a manual publish:
 
 ```bash
 npm login
 npm publish --access public
 ```
 
-Every later publish needs a new version, for example `npm version patch && npm publish`.
+Every published version is immutable. For manual releases, bump the version first:
+
+```bash
+npm version patch
+npm publish --access public
+```
 
 ## Security and privacy
 
