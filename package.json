@@ -1,0 +1,38 @@
+{
+  "name": "@ianyian/myskills",
+  "version": "0.1.0",
+  "description": "Practical AI skills for repository analysis, research, and execution planning",
+  "type": "module",
+  "bin": {
+    "myskills": "./bin/myskills.js"
+  },
+  "files": [
+    "bin",
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node --test",
+    "start": "node ./bin/myskills.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ianyian/mySKILLs.git"
+  },
+  "homepage": "https://github.com/ianyian/mySKILLs",
+  "bugs": {
+    "url": "https://github.com/ianyian/mySKILLs/issues"
+  },
+  "keywords": [
+    "ai",
+    "agents",
+    "skills",
+    "cli",
+    "automation"
+  ],
+  "license": "MIT"
+}
