@@ -58,11 +58,11 @@ npm pack --dry-run
 
 Publishing runs automatically after a pull request is merged into `main`.
 
-1. Add an npm granular access token with package write permission and 2FA bypass enabled as the repository Actions secret `NPM_TOKEN`.
+1. In npm package settings, configure a **Trusted Publisher** for this GitHub repository, workflow file `.github/workflows/publish.yml`, and the `main` branch.
 2. Merge a pull request into `main`.
 3. GitHub Actions runs `npm test`.
 4. If the version already exists on npm, the workflow increments the patch version.
-5. The workflow publishes the package, then commits the new version to `main`.
+5. GitHub publishes the package with OIDC provenance, then commits the new version to `main`.
 
 The workflow ignores its own release commit, so one merge creates one npm release. Published npm versions are immutable. Manual releases require a version bump before `npm publish`.
 
