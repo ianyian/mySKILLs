@@ -58,12 +58,12 @@ npm pack --dry-run
 
 Publishing runs automatically after a pull request is merged into `main`.
 
-1. In npm package settings, configure a **Trusted Publisher** for this GitHub repository, workflow file `.github/workflows/publish.yml`, and the `main` branch.
+1. In npm package settings, configure a **Trusted Publisher** for GitHub Actions with repository owner `ianyian`, repository `mySKILLs`, and workflow file `.github/workflows/publish.yml`. If npm asks for an environment, leave it empty because this workflow does not use one.
 2. Merge a pull request into `main`.
 3. GitHub Actions runs `npm test`.
 4. If the version already exists on npm, the workflow increments the patch version.
 5. GitHub publishes the package with OIDC provenance, then commits the new version to `main`.
 
-The workflow ignores its own release commit, so one merge creates one npm release. Published npm versions are immutable. Manual releases require a version bump before `npm publish`.
+The workflow uses npm 11.5.1 for Trusted Publishing, ignores its own release commit, and creates one npm release per merge. Published npm versions are immutable. Manual releases require a version bump before `npm publish`.
 
 The normal Agent Skills workflow does not require an API key. The package also retains an optional standalone CLI mode for OpenAI-compatible providers, which requires `OPENAI_API_KEY`.
