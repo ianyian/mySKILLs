@@ -93,7 +93,7 @@ The package contains no runtime dependencies; it uses Node.js built-ins and `fet
 
 ## Publish
 
-Publishing is automated after changes are merged into `main`. The workflow runs the tests, bumps the patch version when the current version already exists on npm, commits that version, and publishes the package.
+Publishing is automated after changes are merged into `main`. The workflow runs the tests, bumps the patch version when the current version already exists on npm, publishes the package, and commits that version. Release commits are ignored by the workflow so one merge creates exactly one npm release.
 
 To enable automated publishing, create an npm granular access token with package write permission and 2FA bypass enabled. Add it to the GitHub repository at **Settings -> Secrets and variables -> Actions** with the name `NPM_TOKEN`.
 

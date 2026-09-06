@@ -10,6 +10,7 @@ permissions:
 
 jobs:
   publish:
+    if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     steps:
       - name: Check out main
@@ -46,6 +47,9 @@ jobs:
           fi
           echo "version=${package_version}" >> "$GITHUB_OUTPUT"
 
+      - name: Publish package
+        run: npm publish --access public
+
       - name: Commit release version
         if: steps.version.outputs.changed == 'true'
         run: |
@@ -54,6 +58,3 @@ jobs:
           git add package.json
           git commit -m "chore: release v${{ steps.version.outputs.version }}"
           git push
-
-      - name: Publish package
-        run: npm publish --access public
