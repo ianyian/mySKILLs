@@ -58,7 +58,7 @@ npm pack --dry-run
 
 Publishing runs automatically after a pull request is merged into `main`.
 
-1. In npm package settings, configure a **Trusted Publisher** for GitHub Actions with repository owner `ianyian`, repository `mySKILLs`, and workflow file `.github/workflows/publish.yml`. If npm asks for an environment, leave it empty because this workflow does not use one.
+1. In npm package settings, configure a **Trusted Publisher** for GitHub Actions with owner `ianyian`, repository `mySKILLs`, workflow filename `publish.yml`, and no environment. The filename is case-sensitive and must be the filename only, not the `.github/workflows/` path.
 2. Merge a pull request into `main`.
 3. GitHub Actions runs `npm test`.
 4. If the version already exists on npm, the workflow increments the patch version.
