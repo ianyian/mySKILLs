@@ -1,35 +1,18 @@
 # @ianyian/myskills
 
-Three portable VS Code Agent Skills that turn an AI coding agent into a small project assistant:
+Portable AI skills for VS Code Copilot Agent mode:
 
-- **`repo-explorer`** understands a local repository and creates an architecture and onboarding guide.
-- **`research-brief`** researches a topic and creates a cited Markdown brief.
-- **`idea-to-execution`** converts an idea into an implementation plan with tasks and acceptance criteria.
+- **repo-explorer** - creates a repository architecture and onboarding guide.
+- **research-brief** - creates a concise research brief with citations.
+- **idea-to-execution** - turns an idea into an implementation plan.
 
 Repository: <https://github.com/ianyian/mySKILLs>
 
-## Requirements
+## Use in a project
 
-- Node.js 18 or newer
-- VS Code with GitHub Copilot Agent mode, or another agent that supports `.github/skills/*/SKILL.md`
+Requirements: Node.js 18+ and VS Code with GitHub Copilot Agent mode.
 
-The default workflow does not require an API key. VS Code Copilot supplies the model and executes the skills.
-
-## Install and configure
-
-Run without installing:
-
-```bash
-npx @ianyian/myskills --help
-```
-
-Or install globally:
-
-```bash
-npm install --global @ianyian/myskills
-```
-
-Install the skills into the project you have open in VS Code:
+From the project folder, run:
 
 ```bash
 npx @ianyian/myskills@latest init
@@ -44,41 +27,23 @@ This creates:
 └── idea-to-execution/SKILL.md
 ```
 
-Restart or reload the VS Code window if the agent does not discover the skills immediately. Use `--force` only when you want to replace existing skill files:
+Then open Copilot Chat in Agent mode and ask:
 
-```bash
-npx @ianyian/myskills@latest init --force
+```text
+Use the repo-explorer skill to create an onboarding guide for this repository.
 ```
 
-## Use the skills with VS Code Agent mode
+The other skills can be used with requests such as:
 
-Open the project in VS Code, start GitHub Copilot Chat in Agent mode, and ask naturally:
-
-Analyze the current repository:
-
-```bash
-Create a repository onboarding guide using the repo-explorer skill.
-```
-
-This creates `PROJECT_OVERVIEW.md`. Other examples:
-
-```bash
+```text
 Use the research-brief skill to compare PostgreSQL and MongoDB, with citations.
-```
-
-```bash
 Use the idea-to-execution skill to plan dark mode for this web application.
 ```
 
-The agent reads each `SKILL.md`, inspects the project or web sources as needed, and creates the requested artifact.
-
-## Optional standalone CLI mode
-
-The original commands remain available for users who want this package to call an OpenAI-compatible model directly. This mode requires `OPENAI_API_KEY`:
+The agent creates the requested Markdown artifacts in your project. Use `--force` to replace existing skill files:
 
 ```bash
-export OPENAI_API_KEY="your-api-key"
-npx @ianyian/myskills repo-explorer .
+npx @ianyian/myskills@latest init --force
 ```
 
 ## Development
@@ -89,19 +54,16 @@ npm test
 npm pack --dry-run
 ```
 
-The package contains no runtime dependencies; it uses Node.js built-ins and `fetch`.
+## Automated npm publishing
 
-## Publish
+Publishing runs automatically after a pull request is merged into `main`.
 
-After logging in to npm, publish a new version:
+1. Add an npm granular access token with package write permission and 2FA bypass enabled as the repository Actions secret `NPM_TOKEN`.
+2. Merge a pull request into `main`.
+3. GitHub Actions runs `npm test`.
+4. If the version already exists on npm, the workflow increments the patch version.
+5. The workflow publishes the package, then commits the new version to `main`.
 
-```bash
-npm login
-npm publish --access public
-```
+The workflow ignores its own release commit, so one merge creates one npm release. Published npm versions are immutable. Manual releases require a version bump before `npm publish`.
 
-Every later publish needs a new version, for example `npm version patch && npm publish`.
-
-## Security and privacy
-
-The CLI sends the repository excerpts or fetched source text to the configured model provider. Review your provider's data policy before using it with private code. API keys are read from environment variables and are never written to generated files.
+The normal Agent Skills workflow does not require an API key. The package also retains an optional standalone CLI mode for OpenAI-compatible providers, which requires `OPENAI_API_KEY`.
