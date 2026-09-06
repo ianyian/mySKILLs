@@ -1,9 +1,9 @@
 # @ianyian/myskills
 
-Three practical AI skills that turn a Node.js CLI into a small project assistant:
+Three portable VS Code Agent Skills that turn an AI coding agent into a small project assistant:
 
-- **`repo-explorer`** understands a local repository and writes an architecture and onboarding guide.
-- **`research-brief`** turns a topic and optional URLs into a cited Markdown research brief.
+- **`repo-explorer`** understands a local repository and creates an architecture and onboarding guide.
+- **`research-brief`** researches a topic and creates a cited Markdown brief.
 - **`idea-to-execution`** converts an idea into an implementation plan with tasks and acceptance criteria.
 
 Repository: <https://github.com/ianyian/mySKILLs>
@@ -11,9 +11,9 @@ Repository: <https://github.com/ianyian/mySKILLs>
 ## Requirements
 
 - Node.js 18 or newer
-- An OpenAI-compatible API key
+- VS Code with GitHub Copilot Agent mode, or another agent that supports `.github/skills/*/SKILL.md`
 
-The CLI uses the OpenAI-compatible Chat Completions API. It works with OpenAI by default and can be pointed at another compatible provider with `OPENAI_BASE_URL`.
+The default workflow does not require an API key. VS Code Copilot supplies the model and executes the skills.
 
 ## Install and configure
 
@@ -29,50 +29,56 @@ Or install globally:
 npm install --global @ianyian/myskills
 ```
 
-Configure the model client:
+Install the skills into the project you have open in VS Code:
 
 ```bash
-export OPENAI_API_KEY="your-api-key"
-# Optional:
-export OPENAI_MODEL="gpt-4o-mini"
-export OPENAI_BASE_URL="https://api.openai.com/v1"
+npx @ianyian/myskills@latest init
 ```
 
-## Examples
+This creates:
+
+```text
+.github/skills/
+├── repo-explorer/SKILL.md
+├── research-brief/SKILL.md
+└── idea-to-execution/SKILL.md
+```
+
+Restart or reload the VS Code window if the agent does not discover the skills immediately. Use `--force` only when you want to replace existing skill files:
+
+```bash
+npx @ianyian/myskills@latest init --force
+```
+
+## Use the skills with VS Code Agent mode
+
+Open the project in VS Code, start GitHub Copilot Chat in Agent mode, and ask naturally:
 
 Analyze the current repository:
 
 ```bash
+Create a repository onboarding guide using the repo-explorer skill.
+```
+
+This creates `PROJECT_OVERVIEW.md`. Other examples:
+
+```bash
+Use the research-brief skill to compare PostgreSQL and MongoDB, with citations.
+```
+
+```bash
+Use the idea-to-execution skill to plan dark mode for this web application.
+```
+
+The agent reads each `SKILL.md`, inspects the project or web sources as needed, and creates the requested artifact.
+
+## Optional standalone CLI mode
+
+The original commands remain available for users who want this package to call an OpenAI-compatible model directly. This mode requires `OPENAI_API_KEY`:
+
+```bash
+export OPENAI_API_KEY="your-api-key"
 npx @ianyian/myskills repo-explorer .
-```
-
-This creates `PROJECT_OVERVIEW.md`. Choose another output path with `--output`:
-
-```bash
-npx @ianyian/myskills repo-explorer ./my-project --output docs/onboarding.md
-```
-
-Create a research brief:
-
-```bash
-npx @ianyian/myskills research-brief "Compare PostgreSQL and MongoDB"
-```
-
-Add source URLs. The skill fetches their text and asks the model to cite them:
-
-```bash
-npx @ianyian/myskills research-brief \
-  "Best practices for Node.js error handling" \
-  --url https://nodejs.org/en/learn/getting-started/introduction-to-nodejs \
-  --output docs/node-research.md
-```
-
-Turn a product idea into an execution plan:
-
-```bash
-npx @ianyian/myskills idea-to-execution \
-  "Add dark mode to my web application" \
-  --output implementation-plan.md
 ```
 
 ## Development
